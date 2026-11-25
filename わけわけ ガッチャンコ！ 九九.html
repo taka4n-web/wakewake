@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>わけわけ ガッチャンコ！ 九九</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff6e0;--card:#fffdf6;--ink:#5a4636;--yel:#ffe08a;--or:#f5a623;--ord:#c87f0a;--bl:#6cb2e8;--bld:#3b7fb8;--gr:#a5e6a0;--pk:#f7a8a8;--cell:#f3eee1;--head:#e3cdff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2b2420;--card:#3a3029;--ink:#f5e9d6;--yel:#8a6d1f;--gr:#3f7a47;--pk:#8a4a4a;--cell:#4a3f35;--head:#5b4a7a}}
+:root[data-theme="dark"]{--bg:#2b2420;--card:#3a3029;--ink:#f5e9d6;--yel:#8a6d1f;--gr:#3f7a47;--pk:#8a4a4a;--cell:#4a3f35;--head:#5b4a7a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Zen Maru Gothic','Hiragino Maru Gothic ProN','Yu Gothic',sans-serif;font-weight:700}
+[hidden]{display:none!important}
+section{max-width:1100px;margin:0 auto;padding:12px}
+.btn{font:inherit;color:inherit;background:var(--card);border:3px solid var(--ink);border-radius:12px;padding:8px 12px;font-weight:900;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.on{background:var(--yel);border-style:dashed}
+.go{background:var(--gr);width:100%;font-size:20px;padding:16px;margin-top:14px}
+.pill{background:var(--yel);border:3px solid var(--ink);border-radius:999px;padding:6px 14px;font-weight:900;display:inline-block}
+.top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.top .btn{padding:6px 10px;font-size:14px;position:relative}
+.fl{position:absolute;top:-9px;right:-6px;font-size:12px;font-style:normal}
+.msgbar{display:flex;gap:10px;align-items:center;margin:10px 0}
+.lens{font-size:34px}
+.msg{flex:1;background:var(--card);border:3px solid var(--ink);border-radius:8px;padding:10px 14px}
+.wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+@media(max-width:760px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:14px 10px 14px 10px;padding:14px}
+.bdc{display:flex;align-items:center;gap:8px;justify-content:center;min-height:300px}
+.arr{display:flex;flex-direction:column;gap:12px}
+.rb{width:44px;height:44px;border-radius:50%;border:3px solid var(--ink);background:#ffe08a;font-size:18px;cursor:pointer;color:#5a4636}
+#main:not([data-ph="split"]) .rb{opacity:.4;pointer-events:none}
+#main:not([data-ph="split"]) .hd{pointer-events:none}
+#stage{position:relative}
+.dot{position:absolute;border-radius:50%;border:2px solid}
+.dot.o{background:var(--or);border-color:#c87f0a}.dot.b{background:var(--bl);border-color:#3b7fb8}
+.br{position:absolute;width:12px;border:3px solid var(--ink);border-left:0;border-radius:0 10px 10px 0}
+.br span{position:absolute;left:18px;top:50%;transform:translateY(-50%);white-space:nowrap;font-weight:900;font-size:14px}
+.br.o span{color:var(--ord)}.br.b span{color:var(--bld)}
+.hd{position:absolute;left:-14px;display:flex;align-items:center;transform:translateY(-50%);touch-action:none;cursor:ns-resize;z-index:2}
+.hd i{width:16px;height:16px;border-radius:50%;background:var(--pk);border:3px solid var(--ink)}
+.hd u{display:block;flex:1;height:4px;background:var(--ink)}
+.hd b{position:absolute;left:55%;top:50%;transform:translate(-50%,-50%);background:var(--pk);color:#5a4636;border:3px solid var(--ink);border-radius:10px;padding:2px 8px;font-size:13px;white-space:nowrap}
+.fm{font-size:clamp(22px,3.6vw,34px);font-weight:900;text-align:center;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:center}
+.co{color:var(--ord)}.cb{color:var(--bld)}
+.sub{text-align:center;font-size:14px;margin:8px 0 0}
+.bx{display:inline-flex;width:1.5em;height:1.5em;align-items:center;justify-content:center;border:3px dashed;border-radius:10px;font-size:.8em}
+.bx.co{border-color:var(--or);background:rgba(245,166,35,.14)}.bx.cb{border-color:var(--bl);background:rgba(108,178,232,.16)}
+.bx.sel{border-style:solid;box-shadow:0 0 0 3px rgba(60,130,200,.45)}
+.hr{border:0;border-top:3px dashed var(--ink);margin:12px 0}
+.row{display:flex;gap:8px;align-items:center;justify-content:center;font-size:26px;font-weight:900;margin:8px 0}
+.v{min-width:2.2em;height:1.7em;display:inline-flex;align-items:center;justify-content:center;border:3px dashed var(--ink);border-radius:10px;padding:0 6px}
+.v.ok{background:var(--gr);border-style:solid}
+.tools{display:flex;gap:8px;margin:10px 0}.tools .btn{flex:1;font-size:14px}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.pad .btn{font-size:24px;padding:12px}
+.pad .del{background:var(--pk)}.pad .ans{grid-column:1/3;background:var(--gr)}
+.mo{position:fixed;inset:0;background:rgba(40,30,20,.55);display:flex;align-items:center;justify-content:center;z-index:9;padding:16px}
+.mb{background:var(--card);border:3px solid var(--ink);border-radius:14px;padding:22px;max-width:520px;text-align:center}
+.mb h2{font-size:34px;margin:0 0 10px}.mb .pill{font-size:20px}.mb .em{font-size:56px;margin:12px 0}
+.bs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.ttl{display:inline-block;background:var(--card);border:3px solid var(--ink);padding:14px 26px;font-size:clamp(28px,6vw,52px);font-weight:900;transform:rotate(-1deg)}
+.lv,.ns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.lv .btn{padding:12px 18px}.lv small{display:block;font-size:12px}
+.ns .btn{font-size:18px;padding:10px 14px}
+.tb{border-collapse:collapse;width:100%;text-align:center}
+.tb th,.tb td{border:2px solid var(--ink);padding:10px;font-size:18px}
+.tb th{background:var(--head)}.tb th.rh{background:var(--yel)}.tb td{background:var(--cell);height:52px}
+.tb td.gd{background:var(--gr);cursor:pointer;font-size:26px}
+</style></head><body>
+<section id="start" style="text-align:center">
+<div style="font-size:56px">🔎 ✂️</div>
+<div class="ttl">わけわけ ガッチャンコ！</div>
+<p><span class="pill" style="border-style:dashed;font-size:15px" id="sub"></span></p>
+<p>① だんを えらぼう</p><div class="lv" id="ds"></div><p style="font-size:13px;margin:6px">※1のだんは わけられないので えらべません</p>
+<p>② レベルを えらぼう</p><div class="lv" id="lv"></div>
+<p>③ しらべたい しきを えらぼう</p><div class="ns" id="ns"></div>
+</section>
+<section id="main" hidden></section>
+<section id="rec" hidden style="text-align:center">
+<div class="ttl">わけわけ きろく</div>
+<p><span class="pill" style="border-style:dashed;font-size:14px">💮＝たしかめた わけかた。その中で「いちばん けいさんしやすい！」と おもう ますを タップすると ⭐に なるよ。</span></p>
+<div style="overflow-x:auto" id="tb"></div>
+<p><button class="btn" style="background:var(--yel);font-size:20px;padding:14px 28px" onclick="show('main')">もどって つづける</button></p>
+</section>
+<script>
+let D=2;const $=i=>document.getElementById(i),AS=()=>Array.from({length:D-1},(_,i)=>i+1),defA=()=>D===4?2:D>=6?5:D-1;
+let R={d:{},s:{}};
+try{const t=JSON.parse(localStorage.getItem('wake_all')||'null');if(t&&t.d&&t.s)R=t}catch(e){}
+const sv=()=>{try{localStorage.setItem('wake_all',JSON.stringify(R))}catch(e){}};
+let S={mode:'easy',n:1,a:2,ph:'split',step:0,val:'',sel:0,f:['','','',''],msg:'',modal:false,U:60};
+const show=id=>['start','main','rec'].forEach(x=>$(x).hidden=x!==id);
+const ans=()=>[S.a*S.n,(D-S.a)*S.n,D*S.n];
+const N9=[1,2,3,4,5,6,7,8,9];
+function setD(d){D=d;initStart()}
+function initStart(){
+ $('sub').textContent=`●の ずを わけて、${D}のだんの こたえを たしかめよう`;
+ $('ds').innerHTML=N9.map(d=>`<button class="btn ${d===D?'on':''}" ${d===1?'disabled':`onclick="setD(${d})"`}>${d}のだん</button>`).join('');
+ $('lv').innerHTML=`<button class="btn ${S.mode==='easy'?'on':''}" onclick="lvl('easy')">🌱 かんたん<small>わけると しきが 出てくるよ</small></button><button class="btn ${S.mode==='adv'?'on':''}" onclick="lvl('adv')">🔥 じょうきゅう<small>じぶんで しきを たてよう</small></button>`;
+ $('ns').innerHTML=N9.map(i=>`<button class="btn" onclick="openN(${i})">${D}×${i}</button>`).join('');
+}
+function lvl(m){S.mode=m;initStart()}
+function home(){show('start');initStart()}
+function openN(n){S.n=n;S.a=defA();S.ph='split';S.step=0;S.val='';S.sel=0;S.f=['','','',''];S.msg='';S.modal=false;show('main');render()}
+function unit(n){const w=Math.min(innerWidth,1100);return Math.max(20,Math.min(60,Math.floor(((innerWidth>760?w*.5:w)-150)/n)))}
+const anyDone=n=>AS().some(a=>R.d[D+'_'+n+'_'+a]);
+function render(){
+ S.U=unit(S.n);
+ $('main').innerHTML=`<div class="top"><span class="pill">${D}のだん ${S.mode==='adv'?'🔥じょうきゅう':'🌱かんたん'}</span>${N9.map(i=>`<button class="btn ${i===S.n?'on':''}" onclick="openN(${i})">${D}×${i}${anyDone(i)?'<i class="fl">💮</i>':''}</button>`).join('')}<button class="btn" onclick="showRec()">📖 きろく</button><button class="btn" onclick="home()">🏠 はじめに</button></div><div class="msgbar"><span class="lens">🔎</span><div class="msg" id="msg"></div></div><div class="wrap"><div class="card bdc">${board()}</div><div id="panel"></div></div><div id="mo"></div>`;
+ panel();msg();
+}
+function board(){
+ const n=S.n,a=S.a,U=S.U,W=n*U,H=D*U;let dots='';
+ for(let r=0;r<D;r++)for(let c=0;c<n;c++)dots+=`<i class="dot ${r<a?'o':'b'}" style="left:${c*U}px;top:${r*U}px;width:${U-8}px;height:${U-8}px"></i>`;
+ return `<div class="arr"><button class="rb" onclick="mv(-1)">▲</button><button class="rb" onclick="mv(1)">▼</button></div><div id="stage" style="width:${W+80}px;height:${H}px">${dots}<div class="br o" id="bo" style="left:${W+2}px;top:2px;height:${a*U-8}px"><span>${a}×${n}</span></div><div class="br b" id="bb" style="left:${W+2}px;top:${a*U+2}px;height:${(D-a)*U-8}px"><span>${D-a}×${n}</span></div><div class="hd" id="hd" style="top:${a*U-4}px;width:${W+6}px" onpointerdown="drag(event)"><i></i><u></u><b>⇕ うごかす</b></div></div>`;
+}
+function updBoard(){
+ const n=S.n,a=S.a,U=S.U;
+ document.querySelectorAll('.dot').forEach((d,i)=>d.className='dot '+(Math.floor(i/n)<a?'o':'b'));
+ const bo=$('bo'),bb=$('bb');
+ bo.style.height=a*U-8+'px';bb.style.top=a*U+2+'px';bb.style.height=(D-a)*U-8+'px';
+ bo.firstChild.textContent=a+'×'+n;bb.firstChild.textContent=(D-a)+'×'+n;$('hd').style.top=a*U-4+'px';
+}
+function setA(a){a=Math.max(1,Math.min(D-1,a));if(a!==S.a){S.a=a;updBoard();panel();msg()}}
+function mv(d){if(S.ph==='split')setA(S.a+d)}
+function drag(e){
+ if(S.ph!=='split')return;e.preventDefault();
+ const m=ev=>setA(Math.round((ev.clientY-$('stage').getBoundingClientRect().top)/S.U));
+ const u=()=>{removeEventListener('pointermove',m);removeEventListener('pointerup',u)};
+ addEventListener('pointermove',m);addEventListener('pointerup',u);
+}
+function boxes(live){
+ const c=['co','co','cb','cb'];
+ return [0,1,2,3].map(i=>`${i===1?'<span class="co">×</span>':i===2?'<span>+</span>':i===3?'<span class="cb">×</span>':''}<span class="bx ${c[i]} ${live&&S.sel===i?'sel':''}" ${live?`onclick="selb(${i})"`:''}>${S.f[i]}</span>`).join('');
+}
+function selb(i){S.sel=i;panel()}
+function defMsg(){
+ const n=S.n,a=S.a,b=D-a;
+ if(S.ph==='split')return `${D}×${n} を しらべよう。${D}れつを どこで わける?`;
+ if(S.ph==='formula')return 'わけかたが きまったね！ ●の ずを 見て、しきを たてよう。';
+ if(S.step===0)return S.mode==='adv'?'しきが できたね！ じゅんばんに けいさんしよう。':`${a}と${b}に わけたね！ じゅんばんに けいさんしよう。`;
+ return S.step===1?'つぎは したの ぶん！':'あとは たすだけ！';
+}
+function msg(){$('msg').textContent=S.msg||defMsg()}
+function panel(){
+ const n=S.n,a=S.a,b=D-a,ph=S.ph,adv=S.mode==='adv',A=ans();
+ $('main').dataset.ph=ph;
+ const fx=(ph==='split'&&adv)?boxes(false):ph==='formula'?boxes(true):`<b class="co">${a}×${n}</b><span>+</span><b class="cb">${b}×${n}</b>`;
+ let h=`<div class="card"><div class="fm"><span>${D}×${n} =</span>${fx}</div>`;
+ if(ph==='split')h+=`<p class="sub">しきり線を うごかして、わけかたを きめよう</p></div><button class="btn go" onclick="go()">${adv?'この わけかたで しきを たてる！':'この わけかたで たしかめる！'}</button>`;
+ else{
+  if(ph==='formula')h+=`<p class="sub">●の ずを 見て □に かずを いれよう（□を タップすると えらべるよ）</p>`;
+  else{
+   h+='<hr class="hr">';
+   const rows=[[`<b class="co">${a}×${n}</b> =`,`まず うえの ${a}れつぶん（${a}×${n}）を かんがえよう`],[`<b class="cb">${b}×${n}</b> =`,`つぎに したの ${b}れつぶん（${b}×${n}）を かんがえよう`],[`<b class="co">${A[0]}</b> + <b class="cb">${A[1]}</b> =`,`ふたつを あわせると ${D}×${n} の こたえに なるかな?`]];
+   for(let i=0;i<=S.step&&i<3;i++)h+=`<div class="row"><span>${rows[i][0]}</span><span class="v ${S.step>i?'ok':''}">${S.step>i?A[i]:S.val}</span></div>`+(S.step===i?`<p class="sub">${rows[i][1]}</p>`:'');
+  }
+  h+='</div>';
+ }
+ if(ph!=='split'){
+  h+=`<div class="tools"><button class="btn" onclick="again()">↩ わけかたを かえる</button><button class="btn" onclick="hint()">💡 ヒント</button></div><div class="pad">${[7,8,9,4,5,6,1,2,3,0].map(d=>`<button class="btn" onclick="key(${d})">${d}</button>`).join('')}<button class="btn del" onclick="del()">けす</button><button class="btn ans" onclick="ok()">こたえる</button></div>`;
+ }
+ $('panel').innerHTML=h;
+ $('mo').innerHTML=S.modal?`<div class="mo"><div class="mb"><h2>たしかめ OK！</h2><span class="pill">${D}×${n} ＝ ${a}×${n} ＋ ${b}×${n} ＝ ${A[2]}</span><div class="em">🔎💮</div><div class="bs"><button class="btn" onclick="again2()">ちがう わけかた</button><button class="btn" onclick="openN(${n%9+1})">ちがう しき</button><button class="btn" onclick="S.modal=false;showRec()">きろくを みる</button></div></div></div>`:'';
+}
+function go(){S.ph=S.mode==='adv'?'formula':'calc';S.step=0;S.val='';S.sel=0;S.f=['','','',''];S.msg='';panel();msg()}
+function again(){S.ph='split';S.step=0;S.val='';S.msg='';panel();msg()}
+function again2(){S.modal=false;S.a=S.a%(D-1)+1;S.f=['','','',''];S.ph='split';S.step=0;S.val='';S.msg='';render()}
+function key(d){
+ if(S.ph==='formula'){S.f[S.sel]=''+d;const nx=S.f.findIndex(v=>v==='');if(nx>=0)S.sel=nx}
+ else S.val=S.val==='0'?''+d:(S.val+d).slice(0,2);
+ panel();
+}
+function del(){
+ if(S.ph==='formula'){if(S.f[S.sel])S.f[S.sel]='';else if(S.sel>0){S.sel--;S.f[S.sel]=''}}
+ else S.val=S.val.slice(0,-1);
+ panel();
+}
+function ok(){
+ const n=S.n,a=S.a;
+ if(S.ph==='formula'){
+  if(S.f.some(v=>v===''))S.msg='ぜんぶの □に かずを いれてね。';
+  else if(+S.f[0]===a&&+S.f[1]===n&&+S.f[2]===D-a&&+S.f[3]===n){S.ph='calc';S.step=0;S.val='';S.msg=''}
+  else S.msg='おしい！ オレンジの ●は なんれつ？ ひとつの れつに ●は なんこ？';
+ }else{
+  if(S.val==='')S.msg='かずを えらんでね。';
+  else if(+S.val===ans()[S.step]){
+   S.step++;S.val='';
+   if(S.step===3){R.d[D+'_'+n+'_'+a]=1;sv();S.modal=true;S.msg='';panel();msg();return}
+   S.msg='せいかい！ '+defMsg();
+  }else{S.val='';S.msg='おしい！ もういちど かんがえてみよう。'}
+ }
+ panel();msg();
+}
+function hint(){
+ const n=S.n,a=S.a,b=D-a,A=ans();
+ if(S.ph==='split')S.msg='▲▼ か しきり線で、オレンジと あおの ●の かずを かえられるよ。';
+ else if(S.ph==='formula')S.msg=`オレンジの ●は うえから ${a}れつ。ひとつの れつに ●は ${n}こ あるよ。`;
+ else if(S.step<2)S.msg=`${n}を ${S.step===0?a:b}かい たすと いくつ？`;
+ else S.msg=`${A[0]} と ${A[1]} を たしてみよう。`;
+ msg();
+}
+function showRec(){
+ let h=`<table class="tb"><tr><th>${D}のだん</th>`+AS().map(a=>`<th>${a}と${D-a}</th>`).join('')+'</tr>';
+ N9.forEach(n=>{h+=`<tr><th class="rh">${D}×${n}</th>`+AS().map(a=>{const d=R.d[D+'_'+n+'_'+a];return `<td class="${d?'gd':''}" ${d?`onclick="star(${n},${a})"`:''}>${d?(R.s[D+'_'+n]===a?'⭐':'💮'):''}</td>`}).join('')+'</tr>'});
+ $('tb').innerHTML=h+'</table>';show('rec');
+}
+function star(n,a){R.s[D+'_'+n]=R.s[D+'_'+n]===a?0:a;sv();showRec()}
+addEventListener('resize',()=>{if(!$('main').hidden&&!S.modal)render()});
+initStart();
+</script></body></html>
